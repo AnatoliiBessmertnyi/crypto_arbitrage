@@ -55,7 +55,7 @@ def get_course_tinkoff():  # Функция парсинга ордеров p2p
         prices.append(price)
         min_transfers.append(min_singl_transfer)
         amounts.append(amount)
-        if min_singl_transfer <= 5000 and amount >= 100:
+        if min_singl_transfer <= 5000 and amount >= 200:
             break
 
     return max(prices)
@@ -120,13 +120,16 @@ def get_course_raif():  # Функция парсинга ордеров p2p
 
     return max(prices)
 
-if get_course_tinkoff() > get_course_raif():
+course_tinkoff = get_course_tinkoff()
+course_raif = get_course_raif()
+
+if course_tinkoff > course_raif:
     print(
-        f'Курс по Тиньку: {get_course_tinkoff()} руб. \n'
-        f'Курс по Райффу: {get_course_raif()} руб.'
+        f'Курс по Тиньку: {course_tinkoff} руб. \n'
+        f'Курс по Райффу: {course_raif} руб.'
     )
 else:
     print(
-        f'Курс по Райффу: {get_course_raif()} руб.\n'
-        f'Курс по Тиньку: {get_course_tinkoff()} руб.'
+        f'Курс по Райффу: {course_raif} руб.\n'
+        f'Курс по Тиньку: {course_tinkoff} руб.'
     )

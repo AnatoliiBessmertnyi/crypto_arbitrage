@@ -206,7 +206,7 @@ def get_course_tinkoff():  # Функция парсинга ордеров p2p
         prices.append(price)
         min_transfers.append(min_singl_transfer)
         amounts.append(amount)
-        if min_singl_transfer <= 5000 and amount >= 100:
+        if min_singl_transfer <= 5000 and amount >= 200:
             break
 
     return max(prices)
@@ -274,19 +274,20 @@ def get_course_raif():  # Функция парсинга ордеров p2p
 # Функции расчета прибылей
 html = get_html(URL)
 sum_to_send_USD = 1000 # Оборот
+course_BTC = get_course_btc()
 course_USD_from_Credo = float(get_course_usd(html.text))  # курс банка
 course_EURO_from_Credo = float(get_course_euro(html.text))  # курс банка
-course_sell_USDT_for_GEL = get_course_usdt_buy()  # курс продажи USDT за GEL
-course_buy_USDT_for_GEL = get_course_usdt_sell()   # курс покупки USDT(меньший)
+course_buy_USDT_for_GEL = 2.63#get_course_usdt_sell()   # курс покупки USDT(меньший)
+course_sell_USDT_for_GEL = 2.67#get_course_usdt_buy()  # курс продажи USDT за GEL
 course_sell_USDT_for_RUB = max(get_course_tinkoff(), get_course_raif()) # курс продажи USDT за фиат
 
-course_USD_from_corona = 76.1485  # курс USD ЗК
-course_EURO_from_corona = 81.091  # курс EURP ЗК
-course_GEL_from_corona = 28.711  # курс GEL ЗК
+course_USD_from_corona = 75.7665  # курс USD ЗК
+course_EURO_from_corona = 81.038  # курс EURO ЗК
+course_GEL_from_corona = 28.7623  # курс GEL ЗК
 
-course_USD_from_unistream = 76.0032  # курс USD юнистрим
-course_EURO_from_unistream = 80.98255  # курс EURP юнистрим #
-course_GEL_from_unistream = 29.54661  # курс GEL Unistream
+course_USD_from_unistream = 75.4992  # курс USD юнистрим
+course_EURO_from_unistream = 80.68  # курс EURP юнистрим #
+course_GEL_from_unistream = 29.34284  # курс GEL Unistream
 
 def unistream_usd():
     unistream_USD_profit_rub = (
@@ -381,13 +382,13 @@ elif corona_gel() < unistream_gel():
 
 # Проверка
 print(
-    f'Спред классики: {course_buy_USDT_for_GEL / course_sell_USDT_for_GEL * - 100 + 100:.2f}%\n'
-    f'\nКурс BTC: {get_course_btc()}\n'
-    f'\nКурс USDT/RUB BUY: {course_sell_USDT_for_RUB}'
-    f'\nКурс USD/GEL Credo: {course_USD_from_Credo}'
-    f'\nКурс EURO/GEL Credo: {course_EURO_from_Credo}\n'
-    f'\nКурс USDT/GEL BUY: {course_buy_USDT_for_GEL}'
-    f'\nКурс USDT/GEL SELL: {course_sell_USDT_for_GEL}'
+    f'Спред классики: {course_buy_USDT_for_GEL / course_sell_USDT_for_GEL * - 100 + 100:.2f}% | '
+    f'Курс BTC: {course_BTC} | '
+    f'Курс USDT/RUB BUY: {course_sell_USDT_for_RUB}\n'
+    f'\nКурс USD/GEL Credo: {course_USD_from_Credo} | '
+    f'Курс EURO/GEL Credo: {course_EURO_from_Credo}\n'
+    f'\nКурс USDT/GEL BUY: {course_buy_USDT_for_GEL}   | '
+    f'Курс USDT/GEL SELL: {course_sell_USDT_for_GEL}'
 #    f'\nПрибыль по Unistream USD c {sum_to_send_USD}$ '
  #   f'составит: {unistream_usd():.2f} рублей \n'
   #  f'Спред: {unistream_usd() / (sum_to_send_USD * course_sell_USDT_for_RUB) * 100:.2f}%\n'
