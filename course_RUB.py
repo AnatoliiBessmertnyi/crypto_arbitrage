@@ -1,135 +1,143 @@
 import requests
+from datetime import datetime
+from time import sleep
 
-def get_course_tinkoff():  # Функция парсинга ордеров p2p
-    headers = {
-        'authority': 'p2p.binance.com',
-        'accept': '*/*',
-        'accept-language': 'ru-RU,ru;q=0.9',
-        'c2ctype': 'c2c_merchant',
-        'clienttype': 'web',
-        'content-type': 'application/json',
-        'lang': 'ru',
-        'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/TinkoffNew/USDT?fiat=RUB', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
-        'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-    }
+Cycle = True
+while Cycle == True:
+    sleep(3)
 
-    json_data = {
-        'proMerchantAds': False,
-        'page': 1,
-        'rows': 20,
-        'payTypes': [
-            'TinkoffNew',
-            # тут указываете название вашего банка. Узнать можно тут https://p2p.binance.com/ru/trade/all-payments/USDT, all-payments поменяется на ваш банк.
-        ],
-        'countries': [],
-        'publisherType': None,
-        'asset': 'USDT',
-        'fiat': 'RUB',  # смена валюты
-        'tradeType': 'BUY',  # тип сделки
-    }
+    def get_course_tinkoff():  # Функция парсинга ордеров p2p
+        headers = {
+            'authority': 'p2p.binance.com',
+            'accept': '*/*',
+            'accept-language': 'ru-RU,ru;q=0.9',
+            'c2ctype': 'c2c_merchant',
+            'clienttype': 'web',
+            'content-type': 'application/json',
+            'lang': 'ru',
+            'origin': 'https://p2p.binance.com',
+            'referer': 'https://p2p.binance.com/ru/trade/TinkoffNew/USDT?fiat=RUB', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
+            'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+        }
 
-    response = requests.post(
-        'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search',
-        headers=headers,
-        json=json_data,
-    )
+        json_data = {
+            'proMerchantAds': False,
+            'page': 1,
+            'rows': 20,
+            'payTypes': [
+                'TinkoffNew',
+                # тут указываете название вашего банка. Узнать можно тут https://p2p.binance.com/ru/trade/all-payments/USDT, all-payments поменяется на ваш банк.
+            ],
+            'countries': [],
+            'publisherType': None,
+            'asset': 'USDT',
+            'fiat': 'RUB',  # смена валюты
+            'tradeType': 'BUY',  # тип сделки
+        }
 
-    all_data_1 = response.json() # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
-    prices = []
-    min_transfers = []
-    amounts = []
+        response = requests.post(
+            'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search',
+            headers=headers,
+            json=json_data,
+        )
 
-    for i in all_data_2:
-        price = float(i['adv']['price'])
-        min_singl_transfer = float(i['adv']['minSingleTransAmount'])
-        amount = float(i['adv']['surplusAmount'])
-        #print(price,'', min_singl_transfer, '', amount)  # проверка
-        prices.append(price)
-        min_transfers.append(min_singl_transfer)
-        amounts.append(amount)
-        if min_singl_transfer <= 5000 and amount >= 200:
-            break
+        all_data_1 = response.json() # от сюда начали магию творить
+        all_data_2 = all_data_1['data']
+        prices = []
+        min_transfers = []
+        amounts = []
 
-    return max(prices)
+        for i in all_data_2:
+            price = float(i['adv']['price'])
+            min_singl_transfer = float(i['adv']['minSingleTransAmount'])
+            amount = float(i['adv']['surplusAmount'])
+            #print(price,'', min_singl_transfer, '', amount)  # проверка
+            prices.append(price)
+            min_transfers.append(min_singl_transfer)
+            amounts.append(amount)
+            if min_singl_transfer <= 5000 and amount >= 200:
+                break
 
-def get_course_raif():  # Функция парсинга ордеров p2p
-    headers = {
-        'authority': 'p2p.binance.com',
-        'accept': '*/*',
-        'accept-language': 'ru-RU,ru;q=0.9',
-        'c2ctype': 'c2c_merchant',
-        'clienttype': 'web',
-        'content-type': 'application/json',
-        'lang': 'ru',
-        'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/RaiffeisenBank/USDT?fiat=RUB', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
-        'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-    }
+        return max(prices)
 
-    json_data = {
-        'proMerchantAds': False,
-        'page': 1,
-        'rows': 20,
-        'payTypes': [
-            'RaiffeisenBank',
-            # тут указываете название вашего банка. Узнать можно тут https://p2p.binance.com/ru/trade/all-payments/USDT, all-payments поменяется на ваш банк.
-        ],
-        'countries': [],
-        'publisherType': None,
-        'asset': 'USDT',
-        'fiat': 'RUB',  # смена валюты
-        'tradeType': 'BUY',  # тип сделки
-    }
+    def get_course_raif():  # Функция парсинга ордеров p2p
+        headers = {
+            'authority': 'p2p.binance.com',
+            'accept': '*/*',
+            'accept-language': 'ru-RU,ru;q=0.9',
+            'c2ctype': 'c2c_merchant',
+            'clienttype': 'web',
+            'content-type': 'application/json',
+            'lang': 'ru',
+            'origin': 'https://p2p.binance.com',
+            'referer': 'https://p2p.binance.com/ru/trade/RaiffeisenBank/USDT?fiat=RUB', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
+            'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+        }
 
-    response = requests.post(
-        'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search',
-        headers=headers,
-        json=json_data,
-    )
+        json_data = {
+            'proMerchantAds': False,
+            'page': 1,
+            'rows': 20,
+            'payTypes': [
+                'RaiffeisenBank',
+                # тут указываете название вашего банка. Узнать можно тут https://p2p.binance.com/ru/trade/all-payments/USDT, all-payments поменяется на ваш банк.
+            ],
+            'countries': [],
+            'publisherType': None,
+            'asset': 'USDT',
+            'fiat': 'RUB',  # смена валюты
+            'tradeType': 'BUY',  # тип сделки
+        }
 
-    all_data_1 = response.json() # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
-    prices = []
-    min_transfers = []
-    amounts = []
+        response = requests.post(
+            'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search',
+            headers=headers,
+            json=json_data,
+        )
 
-    for i in all_data_2:
-        price = float(i['adv']['price'])
-        min_singl_transfer = float(i['adv']['minSingleTransAmount'])
-        amount = float(i['adv']['surplusAmount'])
-        #print(price,'', min_singl_transfer, '', amount)  # проверка
-        prices.append(price)
-        min_transfers.append(min_singl_transfer)
-        amounts.append(amount)
-        if min_singl_transfer <= 5000 and amount >= 100:
-            break
+        all_data_1 = response.json() # от сюда начали магию творить
+        all_data_2 = all_data_1['data']
+        prices = []
+        min_transfers = []
+        amounts = []
 
-    return max(prices)
+        for i in all_data_2:
+            price = float(i['adv']['price'])
+            min_singl_transfer = float(i['adv']['minSingleTransAmount'])
+            amount = float(i['adv']['surplusAmount'])
+            #print(price,'', min_singl_transfer, '', amount)  # проверка
+            prices.append(price)
+            min_transfers.append(min_singl_transfer)
+            amounts.append(amount)
+            if min_singl_transfer <= 5000 and amount >= 100:
+                break
 
-course_tinkoff = get_course_tinkoff()
-course_raif = get_course_raif()
+        return max(prices)
 
-if course_tinkoff > course_raif:
-    print(
-        f'Курс по Тиньку: {course_tinkoff} руб. \n'
-        f'Курс по Райффу: {course_raif} руб.'
-    )
-else:
-    print(
-        f'Курс по Райффу: {course_raif} руб.\n'
-        f'Курс по Тиньку: {course_tinkoff} руб.'
-    )
+    course_tinkoff = get_course_tinkoff()
+    course_raif = get_course_raif()
+
+    if course_tinkoff > course_raif:
+        print(
+            f'\nКурс по Тиньку: {course_tinkoff} руб.\n'
+            f'Курс по Райффу: {course_raif} руб.'
+        )
+    else:
+        print(
+            f'\nКурс по Райффу: {course_raif} руб.\n'
+            f'Курс по Тиньку: {course_tinkoff} руб.'
+        )
+
+    print(f'{datetime.now().time()}')
