@@ -1,3 +1,4 @@
+#Парсинг курсов USD, EURO банка Credo
 import requests
 from bs4 import BeautifulSoup
 
