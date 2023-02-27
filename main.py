@@ -1,61 +1,26 @@
-import requests
-def get_course_euro_usdt_sell():  # Функция парсинга ордеров p2p
-    headers = {
-        'authority': 'p2p.binance.com',
-        'accept': '*/*',
-        'accept-language': 'ru-RU,ru;q=0.9',
-        'c2ctype': 'c2c_merchant',
-        'clienttype': 'web',
-        'content-type': 'application/json',
-        'lang': 'ru',
-        'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/sell/USDT?fiat=EUR&payment=CREDOBANK', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
-        'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-    }
+import re
+from bs4 import BeautifulSoup
+import urllib.request
 
-    json_data = {
-        'proMerchantAds': False,
-        'page': 1,
-        'rows': 10,
-        'payTypes': [
-            'CREDOBANK',
-            # тут указываете название вашего банка. Узнать можно тут https://p2p.binance.com/ru/trade/all-payments/USDT, all-payments поменяется на ваш банк.
-        ],
-        'countries': [],
-        'publisherType': None,
-        'asset': 'USDT',
-        'fiat': 'EUR',  # смена валюты
-        'tradeType': 'SELL',  # тип сделки
-    }
+def get_corona_gel():
+    headers = {"User-Agent":"Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"}
+    url = "https://koronapay.com/transfers/online/?locale=ru&paidNotification=false&holdOnCalculator=true&receivingAmount=1000&receivingCountryId=GEO&receivingCurrencyId=981&sendingCountryId=RUS"
+    request = urllib.request.Request(url, headers=headers)
+    response = urllib.request.urlopen(request)
+    soup = BeautifulSoup(response, 'html.parser')
+    course_str = soup.find('span', {'id': 'static-text-calculatorExchangeRate'}).text
+    course = re.findall(r"[-+]?\d*\.?\d+|\d+", course_str)
+    return float(course[1])
 
-    response = requests.post(
-        'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search',
-        headers=headers,
-        json=json_data,
-    )
+def get_corona_usd():
+    headers = {"User-Agent":"Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"}
+    url = 'https://koronapay.com/transfers/online/?locale=ru&paidNotification=false&holdOnCalculator=true&receivingAmount=700&receivingCountryId=GEO&receivingCurrencyId=840&sendingCountryId=RUS'
+    request = urllib.request.Request(url, headers=headers)
+    response = urllib.request.urlopen(request)
+    soup = BeautifulSoup(response, 'html.parser')
+    course_str = soup.find('span', {'id': 'static-text-calculatorExchangeRate'}).text
+    course = re.findall(r"[-+]?\d*\.?\d+|\d+", course_str)
+    return float(course[1])
 
-    all_data_1 = response.json() # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
-    prices = []
-    min_transfers = []
-    amounts = []
-
-    for i in all_data_2:
-        price = float(i['adv']['price'])
-        min_singl_transfer = float(i['adv']['minSingleTransAmount'])
-        amount = float(i['adv']['surplusAmount'])
-        #print(price,'', min_singl_transfer, '', amount) # проверка
-        prices.append(price)
-        min_transfers.append(min_singl_transfer)
-        amounts.append(amount)
-        if min_singl_transfer <= 100 and amount >= 100:
-            break
-    return min(prices)
-
-print(get_course_euro_usdt_sell())
+print(get_corona_gel())
+print(get_corona_usd())
