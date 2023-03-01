@@ -8,17 +8,18 @@ from datetime import datetime
 sum_to_send_USD = 1000 # Оборот в $
 course_sell_USDT_for_RUB = max(course_tinkoff, course_raif) # курс продажи USDT за фиат
 sum_to_send_in_RUB = sum_to_send_USD * course_sell_USDT_for_RUB  # Сумма отправления в рублях
+course_buy_GEL_for_USDT = course_buy_GEL_for_USDT  # больший курс
 
 course_USD_from_corona = course_corona_usd  # курс USD ЗК
 # course_EURO_from_corona = 81.9176  # курс EURO ЗК
 course_GEL_from_corona = course_corona_gel  # курс GEL ЗК
 
-course_USD_from_unistream = 76.5072  # курс USD юнистрим
-course_EURO_from_unistream = 80.78085  # курс EURP юнистрим #
-course_GEL_from_unistream = 29.54661  # курс GEL Unistream
+course_USD_from_unistream = 76.14998  # курс USD юнистрим
+course_EURO_from_unistream = 81.4868  # курс EURP юнистрим #
+course_GEL_from_unistream = 29.79592  # курс GEL Unistream
 
-course_USD_from_contact = 77.6464  # необязательно вбивать
-course_GEL_from_contact = 29.41012  # необязательно вбивать
+# course_USD_from_contact = 77.6464
+# course_GEL_from_contact = 29.41012
 
 # Функции расчета прибыльности
 def unistream_usd():
@@ -36,7 +37,7 @@ def corona_usd():
     )
     return corona_USD_profit_rub
 
-def contact_usd():
+# def contact_usd():
     profit = (
         sum_to_send_in_RUB / course_USD_from_contact
         * course_USD_from_Credo / course_sell_GEL_for_USDT 
@@ -59,7 +60,7 @@ def unistream_gel():  # Функция подсчета прибыли чере�
         )
     return unistream_profit_RUB
 
-def contact_gel():  # Функция подсчета прибыли через отправку GEL по ЗК
+# def contact_gel():  # Функция подсчета прибыли через отправку GEL по ЗК
     profit = (
         (sum_to_send_in_RUB / course_GEL_from_contact
          / course_sell_GEL_for_USDT * course_sell_USDT_for_RUB * 0.999) 
@@ -145,7 +146,8 @@ elif unistream_gel() > corona_gel():
 # Проверка и справочная информация
 print(
     f'Местное время: {datetime.now().time().strftime("%H:%M:%S")}     | '
-    f'Курс USDT/RUB: {course_sell_USDT_for_RUB:.2f} '
+    f'Курс USDT/RUB: {course_sell_USDT_for_RUB:.2f}      |'
+    f'Курс ЗК: {course_GEL_from_corona:.5f} '
     f'\nКурс Credo: USD/GEL: {course_USD_from_Credo:.3f}  | '
     f'EURO/GEL: {course_EURO_from_Credo_min}'
     f'\nПокупка GEL за USDT: {course_buy_GEL_for_USDT}   | '
@@ -154,4 +156,5 @@ print(
     f'\nКонвертация GEL/EURO: {course_EURO_from_Credo_max:.3f} | '
     f'Покупка EUR/USDT: {course_sell_EUR_for_USDT}   | '
     f'Спред EURO/USDT: {euro_classic():.2f}%'
+
 )

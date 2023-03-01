@@ -3,12 +3,12 @@ from course_crypto import courses
 from course_p2p_crypto import course_sell_GEL_for_BTC, course_sell_GEL_for_ETH, \
     course_sell_GEL_for_BNB
 
-sum_to_send = 128 # сумма GEL
+sum_to_send = 1020 # сумма GEL
 
 course_BTC = courses[0]
 course_ETH = courses[1]
 course_BNB = courses[2]
-course_p2p_BTC = course_sell_GEL_for_BTC
+course_p2p_BTC = course_sell_GEL_for_BTC#
 course_p2p_ETH = course_sell_GEL_for_ETH
 course_p2p_BNB = course_sell_GEL_for_BNB
 course_USDT = course_buy_GEL_for_USDT
