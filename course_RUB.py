@@ -10,7 +10,7 @@ def get_course_tinkoff():  # Функция парсинга ордеров p2p
         'content-type': 'application/json',
         'lang': 'ru',
         'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/TinkoffNew/USDT?fiat=RUB', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
+        # 'referer': 'https://p2p.binance.com/ru/trade/TinkoffNew/USDT?fiat=RUB', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
         'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
@@ -41,7 +41,7 @@ def get_course_tinkoff():  # Функция парсинга ордеров p2p
         json=json_data,
     )
 
-    all_data_1 = response.json() # от сюда начали магию творить
+    all_data_1 = response.json()  # от сюда начали магию творить
     all_data_2 = all_data_1['data']
     prices = []
     min_transfers = []
@@ -51,7 +51,7 @@ def get_course_tinkoff():  # Функция парсинга ордеров p2p
         price = float(i['adv']['price'])
         min_singl_transfer = float(i['adv']['minSingleTransAmount'])
         amount = float(i['adv']['surplusAmount'])
-        #print(price,'', min_singl_transfer, '', amount)  # проверка
+        # print(price,'', min_singl_transfer, '', amount)  # проверка
         prices.append(price)
         min_transfers.append(min_singl_transfer)
         amounts.append(amount)
@@ -59,6 +59,7 @@ def get_course_tinkoff():  # Функция парсинга ордеров p2p
             break
 
     return max(prices)
+
 
 def get_course_raif():  # Функция парсинга ордеров p2p
     headers = {
@@ -70,7 +71,7 @@ def get_course_raif():  # Функция парсинга ордеров p2p
         'content-type': 'application/json',
         'lang': 'ru',
         'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/RaiffeisenBank/USDT?fiat=RUB', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
+        # 'referer': 'https://p2p.binance.com/ru/trade/RaiffeisenBank/USDT?fiat=RUB', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
         'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
@@ -111,7 +112,7 @@ def get_course_raif():  # Функция парсинга ордеров p2p
         price = float(i['adv']['price'])
         min_singl_transfer = float(i['adv']['minSingleTransAmount'])
         amount = float(i['adv']['surplusAmount'])
-        #print(price,'', min_singl_transfer, '', amount)  # проверка
+        # print(price,'', min_singl_transfer, '', amount)  # проверка
         prices.append(price)
         min_transfers.append(min_singl_transfer)
         amounts.append(amount)
@@ -119,6 +120,7 @@ def get_course_raif():  # Функция парсинга ордеров p2p
             break
 
     return max(prices)
+
 
 course_tinkoff = get_course_tinkoff()
 course_raif = get_course_raif()

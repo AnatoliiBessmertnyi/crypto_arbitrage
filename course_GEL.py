@@ -1,5 +1,6 @@
 import requests
 
+
 def get_course_usdt_buy():  # Функция парсинга верха sell
     headers = {
         'authority': 'p2p.binance.com',
@@ -10,7 +11,7 @@ def get_course_usdt_buy():  # Функция парсинга верха sell
         'content-type': 'application/json',
         'lang': 'ru',
         'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/sell/USDT?fiat=GEL&payment=CREDOBANK', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
+        'referer': 'https://p2p.binance.com/ru/trade/sell/USDT?fiat=GEL&payment=CREDOBANK',  # тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
         'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
@@ -41,8 +42,7 @@ def get_course_usdt_buy():  # Функция парсинга верха sell
         json=json_data,
     )
 
-    # data = response.json()
-    all_data_1 = response.json() # от сюда начали магию творить
+    all_data_1 = response.json()  # от сюда начали магию творить
     all_data_2 = all_data_1['data']
     prices = []
     min_transfers = []
@@ -52,7 +52,7 @@ def get_course_usdt_buy():  # Функция парсинга верха sell
         price = float(i['adv']['price'])
         min_singl_transfer = float(i['adv']['minSingleTransAmount'])
         amount = float(i['adv']['surplusAmount'])
-        #print(price,'', min_singl_transfer, '', amount)
+        # print(price,'', min_singl_transfer, '', amount)
         prices.append(price)
         min_transfers.append(min_singl_transfer)
         amounts.append(amount)
@@ -60,6 +60,7 @@ def get_course_usdt_buy():  # Функция парсинга верха sell
             break
 
     return max(prices)
+
 
 def get_course_usdt_sell():  # Функция парсинга ордеров p2p
     headers = {
@@ -120,6 +121,7 @@ def get_course_usdt_sell():  # Функция парсинга ордеров p2
             break
     return min(prices)
 
+
 def get_course_euro_usdt_sell():  # Функция парсинга ордеров p2p
     headers = {
         'authority': 'p2p.binance.com',
@@ -179,10 +181,11 @@ def get_course_euro_usdt_sell():  # Функция парсинга ордеро
             break
     return min(prices)
 
+
 course_buy_GEL_for_USDT = get_course_usdt_buy()
 course_sell_GEL_for_USDT = get_course_usdt_sell()
 course_sell_EUR_for_USDT = get_course_euro_usdt_sell()
 
-#print(course_buy_GEL_for_USDT)
-#print(course_sell_GEL_for_USDT)
-#print(course_sell_EUR_for_USDT)
+# print(course_buy_GEL_for_USDT)
+# print(course_sell_GEL_for_USDT)
+# print(course_sell_EUR_for_USDT)

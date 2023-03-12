@@ -117,7 +117,7 @@ while Cycle == True:
             price = float(i['adv']['price'])
             min_singl_transfer = float(i['adv']['minSingleTransAmount'])
             amount = float(i['adv']['surplusAmount'])
-            #print(price,'', min_singl_transfer, '', amount)  # проверка
+            # print(price,'', min_singl_transfer, '', amount)  # проверка
             prices.append(price)
             min_transfers.append(min_singl_transfer)
             amounts.append(amount)
@@ -129,7 +129,7 @@ while Cycle == True:
     course_tinkoff = get_course_tinkoff()
     course_raif = get_course_raif()
 
-    if course_tinkoff > course_raif:
+    if course_tinkoff > course_raif: 
         print(
             f'\nКурс по Тиньку: {course_tinkoff} руб.\n'
             f'Курс по Райффу: {course_raif} руб.'

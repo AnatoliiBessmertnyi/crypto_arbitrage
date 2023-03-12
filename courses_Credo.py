@@ -31,7 +31,7 @@ html = get_html()
 
 def get_corona_gel():
     headers = {"User-Agent":"Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"}
-    url = "https://koronapay.com/transfers/online/?locale=ru&paidNotification=false&holdOnCalculator=true&receivingAmount=1700&receivingCountryId=GEO&receivingCurrencyId=981&sendingCountryId=RUS"
+    url = "https://koronapay.com/transfers/online/?locale=ru&paidNotification=false&holdOnCalculator=true&receivingAmount=2600&receivingCountryId=GEO&receivingCurrencyId=981&sendingCountryId=RUS"
     request = urllib.request.Request(url, headers=headers)
     response = urllib.request.urlopen(request)
     soup = BeautifulSoup(response, 'html.parser')
