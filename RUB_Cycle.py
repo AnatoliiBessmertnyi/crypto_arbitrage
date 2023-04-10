@@ -25,7 +25,6 @@ while Cycle == True:
             'sec-fetch-site': 'same-origin',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
         }
-
         json_data = {
             'proMerchantAds': False,
             'page': 1,
@@ -40,14 +39,12 @@ while Cycle == True:
             'fiat': 'RUB',  # смена валюты
             'tradeType': 'BUY',  # тип сделки
         }
-
         response = requests.post(
             'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search',
             headers=headers,
             json=json_data,
         )
-
-        all_data_1 = response.json() # от сюда начали магию творить
+        all_data_1 = response.json()  # от сюда начали магию творить
         all_data_2 = all_data_1['data']
         prices = []
         min_transfers = []
@@ -57,7 +54,7 @@ while Cycle == True:
             price = float(i['adv']['price'])
             min_singl_transfer = float(i['adv']['minSingleTransAmount'])
             amount = float(i['adv']['surplusAmount'])
-            #print(price,'', min_singl_transfer, '', amount)  # проверка
+            # print(price,'', min_singl_transfer, '', amount)  # проверка
             prices.append(price)
             min_transfers.append(min_singl_transfer)
             amounts.append(amount)
@@ -85,7 +82,6 @@ while Cycle == True:
             'sec-fetch-site': 'same-origin',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
         }
-
         json_data = {
             'proMerchantAds': False,
             'page': 1,
@@ -100,14 +96,12 @@ while Cycle == True:
             'fiat': 'RUB',  # смена валюты
             'tradeType': 'BUY',  # тип сделки
         }
-
         response = requests.post(
             'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search',
             headers=headers,
             json=json_data,
         )
-
-        all_data_1 = response.json() # от сюда начали магию творить
+        all_data_1 = response.json()  # от сюда начали магию творить
         all_data_2 = all_data_1['data']
         prices = []
         min_transfers = []
@@ -129,7 +123,7 @@ while Cycle == True:
     course_tinkoff = get_course_tinkoff()
     course_raif = get_course_raif()
 
-    if course_tinkoff > course_raif: 
+    if course_tinkoff > course_raif:
         print(
             f'\nКурс по Тиньку: {course_tinkoff} руб.\n'
             f'Курс по Райффу: {course_raif} руб.'

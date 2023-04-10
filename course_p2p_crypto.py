@@ -38,11 +38,10 @@ def get_btc_buy():  # Функция парсинга ордеров p2p
         headers=headers,
         json=json_data,
     )
-    all_data_1 = response.json()  # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
+    items = response.json().get('data')
     prices = []
 
-    for i in all_data_2:
+    for i in items:
         price = float(i['adv']['price'])
         # print(price)  # проверка
         prices.append(price)
@@ -87,11 +86,10 @@ def get_eth_buy():  # Функция парсинга ордеров p2p
         headers=headers,
         json=json_data,
     )
-    all_data_1 = response.json()  # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
+    items = response.json().get('data')
     prices = []
 
-    for i in all_data_2:
+    for i in items:
         price = float(i['adv']['price'])
         # print(price)  # проверка
         prices.append(price)
@@ -136,10 +134,10 @@ def get_btc_sell():  # Функция парсинга ордеров p2p
         headers=headers,
         json=json_data,
     )
-    all_data_1 = response.json()  # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
+    items = response.json().get('data')
     prices = []
-    for i in all_data_2:
+
+    for i in items:
         price = float(i['adv']['price'])
         # print(price) # проверка
         prices.append(price)
@@ -184,10 +182,10 @@ def get_eth_sell():  # Функция парсинга ордеров p2p
         headers=headers,
         json=json_data,
     )
-    all_data_1 = response.json()
-    all_data_2 = all_data_1['data']
+    items = response.json().get('data')
     prices = []
-    for i in all_data_2:
+
+    for i in items:
         price = float(i['adv']['price'])
         # print(price) # проверка
         prices.append(price)
@@ -232,10 +230,10 @@ def get_bnb_sell():  # Функция парсинга ордеров p2p
         headers=headers,
         json=json_data,
     )
-    all_data_1 = response.json()  # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
+    items = response.json().get('data')
     prices = []
-    for i in all_data_2:
+
+    for i in items:
         price = float(i['adv']['price'])
         # print(price) # проверка
         prices.append(price)

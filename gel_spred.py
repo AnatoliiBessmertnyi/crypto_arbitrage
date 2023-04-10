@@ -5,24 +5,24 @@ from courses_Credo import course_USD_from_Credo, course_EURO_from_Credo_min, \
 from course_GEL import course_buy_GEL_for_USDT, course_sell_GEL_for_USDT
 # , \course_sell_EUR_for_USDT
 
-sum_to_send_USD = 1100  # Оборот в $
+sum_to_send_USD = 1000  # Оборот в $
 course_sell_USDT_for_RUB = max(course_tinkoff, course_raif)
 sum_to_send_in_RUB = sum_to_send_USD * course_sell_USDT_for_RUB
 
 course_buy_GEL_for_USDT = course_buy_GEL_for_USDT  # больший курс
+course_sell_GEL_for_USDT = course_sell_GEL_for_USDT  # меньший курс
 course_USD_from_Credo = course_USD_from_Credo  # курс банка
 spred_classic = course_buy_GEL_for_USDT / course_sell_GEL_for_USDT * 100 - 100
 
 course_USD_from_corona = course_corona_usd  # курс USD ЗК
 # course_EURO_from_corona = 81.9176  # курс EURO ЗК
 course_GEL_from_corona = course_corona_gel  # курс GEL ЗК
+course_USD_from_unistream = 82.611  # курс USD юнистрим
+course_EURO_from_unistream = 90.26075  # курс EURP юнистрим #
+course_GEL_from_unistream = 33.0107  # курс GEL Unistream
 
-course_USD_from_unistream = 77.0835  # курс USD юнистрим
-course_EURO_from_unistream = 82.4953  # курс EURP юнистрим #
-course_GEL_from_unistream = 30.03617  # курс GEL Unistream
-
-# course_USD_from_contact = 77.6464
-# course_GEL_from_contact = 29.41012
+# course_USD_from_contact = 77.5097
+# course_GEL_from_contact = 30.59471
 
 
 # Функции расчета прибыльности
@@ -121,7 +121,6 @@ elif corona_usd() > unistream_usd():
         f'составит: {corona_usd():.2f} рублей. '
         f'Спред: {corona_usd() / sum_to_send_in_RUB * 100:.2f}% '
         f'vs Uni: {unistream_usd() / sum_to_send_in_RUB * 100:.2f}%\n'
-
     )
 # elif contact_usd() > unistream_usd() and contact_usd() > corona_usd():
 #     print(
@@ -147,13 +146,15 @@ if corona_gel() > unistream_gel():
     print(
         f'Прибыль по Золотой короне GEL c {sum_to_send_USD}$ '
         f'составит: {corona_gel():.2f} рублей. '
-        f'Спред: {corona_gel() / sum_to_send_in_RUB * 100:.2f}%\n'
+        f'Спред: {corona_gel() / sum_to_send_in_RUB * 100:.2f}% '
+        f'vs Uni: {unistream_gel() / sum_to_send_in_RUB * 100:.2f}%\n'
     )
 elif unistream_gel() > corona_gel():
     print(
         f'Прибыль по Unistream GEL c {sum_to_send_USD}$ '
         f'составит: {unistream_gel():.2f} рублей. '
-        f'Спред: {unistream_gel() / sum_to_send_in_RUB * 100:.2f}%\n'
+        f'Спред: {unistream_gel() / sum_to_send_in_RUB * 100:.2f}% '
+        f'vs ЗК: {corona_gel() / sum_to_send_in_RUB * 100:.2f}%\n'
         )
 # elif contact_gel() > corona_gel() and contact_gel() > unistream_gel():
 #     print(

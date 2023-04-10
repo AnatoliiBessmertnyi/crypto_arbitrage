@@ -41,13 +41,12 @@ def get_course_tinkoff():  # Функция парсинга ордеров p2p
         json=json_data,
     )
 
-    all_data_1 = response.json()  # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
+    items = response.json().get('data')
     prices = []
     min_transfers = []
     amounts = []
 
-    for i in all_data_2:
+    for i in items:
         price = float(i['adv']['price'])
         min_singl_transfer = float(i['adv']['minSingleTransAmount'])
         amount = float(i['adv']['surplusAmount'])
@@ -102,13 +101,12 @@ def get_course_raif():  # Функция парсинга ордеров p2p
         json=json_data,
     )
 
-    all_data_1 = response.json() # от сюда начали магию творить
-    all_data_2 = all_data_1['data']
+    items = response.json().get('data')
     prices = []
     min_transfers = []
     amounts = []
 
-    for i in all_data_2:
+    for i in items:
         price = float(i['adv']['price'])
         min_singl_transfer = float(i['adv']['minSingleTransAmount'])
         amount = float(i['adv']['surplusAmount'])
@@ -124,3 +122,5 @@ def get_course_raif():  # Функция парсинга ордеров p2p
 
 course_tinkoff = get_course_tinkoff()
 course_raif = get_course_raif()
+
+# print(course_raif, course_tinkoff)
