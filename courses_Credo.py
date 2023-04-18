@@ -13,21 +13,27 @@ def get_html():
 def get_course_usd(html):
     soup = BeautifulSoup(html, 'html.parser')
     item = soup.find('div', class_='currency-rate-box')
-    course_usd_credo_to_gel = item.find_all('span', class_='rate-value')[3].text
+    course_usd_credo_to_gel = item.find_all(
+        'span', class_='rate-value'
+    )[3].text
     return float(course_usd_credo_to_gel)
 
 
 def get_course_euro_min(html):
     soup = BeautifulSoup(html, 'html.parser')
     item = soup.find_all('div', class_='currency-rate-box')[1]
-    course_usd_credo_to_gel = item.find_all('span', class_='rate-value')[3].text
+    course_usd_credo_to_gel = item.find_all(
+        'span', class_='rate-value'
+    )[3].text
     return float(course_usd_credo_to_gel)
 
 
 def get_course_euro_max(html):
     soup = BeautifulSoup(html, 'html.parser')
     item = soup.find_all('div', class_='currency-rate-box')[1]
-    course_usd_credo_to_gel = item.find_all('span', class_='rate-value')[4].text
+    course_usd_credo_to_gel = item.find_all(
+        'span', class_='rate-value'
+    )[4].text
     return float(course_usd_credo_to_gel)
 
 
@@ -35,23 +41,33 @@ html = get_html()
 
 
 def get_corona_gel():
-    headers = {"User-Agent": "Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"}
+    headers = {
+        "User-Agent":
+        "Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"
+    }
     url = "https://koronapay.com/transfers/online/?locale=ru&paidNotification=false&holdOnCalculator=true&receivingAmount=2500&receivingCountryId=GEO&receivingCurrencyId=981&sendingCountryId=RUS"
     request = urllib.request.Request(url, headers=headers)
     response = urllib.request.urlopen(request)
     soup = BeautifulSoup(response, 'html.parser')
-    course_str = soup.find('span', {'id': 'static-text-calculatorExchangeRate'}).text
+    course_str = soup.find(
+        'span', {'id': 'static-text-calculatorExchangeRate'}
+    ).text
     course = re.findall(r"[-+]?\d*\.?\d+|\d+", course_str)
     return float(course[1])
 
 
 def get_corona_usd():
-    headers = {"User-Agent": "Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"}
+    headers = {
+        "User-Agent":
+        "Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"
+    }
     url = 'https://koronapay.com/transfers/online/?locale=ru&paidNotification=false&holdOnCalculator=true&receivingAmount=1000&receivingCountryId=GEO&receivingCurrencyId=840&sendingCountryId=RUS'
     request = urllib.request.Request(url, headers=headers)
     response = urllib.request.urlopen(request)
     soup = BeautifulSoup(response, 'html.parser')
-    course_str = soup.find('span', {'id': 'static-text-calculatorExchangeRate'}).text
+    course_str = soup.find(
+        'span', {'id': 'static-text-calculatorExchangeRate'}
+    ).text
     course = re.findall(r"[-+]?\d*\.?\d+|\d+", course_str)
     return float(course[1])
 

@@ -1,34 +1,32 @@
 import requests
 
+headers = {
+    'authority': 'p2p.binance.com',
+    'accept': '*/*',
+    'accept-language': 'ru-RU,ru;q=0.9',
+    'c2ctype': 'c2c_merchant',
+    'clienttype': 'web',
+    'content-type': 'application/json',
+    'lang': 'ru',
+    'origin': 'https://p2p.binance.com',
+    'sec-ch-ua':
+    '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    'user-agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+}
+
 
 def get_course_usdt_buy():  # Функция парсинга верха sell
-    headers = {
-        'authority': 'p2p.binance.com',
-        'accept': '*/*',
-        'accept-language': 'ru-RU,ru;q=0.9',
-        'c2ctype': 'c2c_merchant',
-        'clienttype': 'web',
-        'content-type': 'application/json',
-        'lang': 'ru',
-        'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/sell/USDT?fiat=GEL&payment=CREDOBANK',  # тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
-        'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-    }
-
     json_data = {
         'proMerchantAds': False,
         'page': 1,
-        'rows': 10,
-        'payTypes': [
-            'CREDOBANK',
-            # тут указываете название вашего банка. Узнать можно тут https://p2p.binance.com/ru/trade/all-payments/USDT, all-payments поменяется на ваш банк.
-        ],
+        'rows': 20,
+        'payTypes': ['CREDOBANK'],  # название банка
         'countries': [],
         'publisherType': None,
         'asset': 'USDT',
@@ -61,39 +59,17 @@ def get_course_usdt_buy():  # Функция парсинга верха sell
     return max(prices)
 
 
-def get_course_usdt_sell():  # Функция парсинга ордеров p2p
-    headers = {
-        'authority': 'p2p.binance.com',
-        'accept': '*/*',
-        'accept-language': 'ru-RU,ru;q=0.9',
-        'c2ctype': 'c2c_merchant',
-        'clienttype': 'web',
-        'content-type': 'application/json',
-        'lang': 'ru',
-        'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/sell/USDT?fiat=GEL&payment=CREDOBANK', #тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
-        'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-    }
-
+def get_course_usdt_sell():
     json_data = {
         'proMerchantAds': False,
         'page': 1,
-        'rows': 10,
-        'payTypes': [
-            'CREDOBANK',
-            # тут указываете название вашего банка. Узнать можно тут https://p2p.binance.com/ru/trade/all-payments/USDT, all-payments поменяется на ваш банк.
-        ],
+        'rows': 20,
+        'payTypes': ['CREDOBANK'],
         'countries': [],
         'publisherType': None,
         'asset': 'USDT',
-        'fiat': 'GEL',  # смена валюты
-        'tradeType': 'SELL',  # тип сделки
+        'fiat': 'GEL',
+        'tradeType': 'SELL',
     }
 
     response = requests.post(
@@ -120,39 +96,17 @@ def get_course_usdt_sell():  # Функция парсинга ордеров p2
     return min(prices)
 
 
-def get_course_euro_usdt_sell():  # Функция парсинга ордеров p2p
-    headers = {
-        'authority': 'p2p.binance.com',
-        'accept': '*/*',
-        'accept-language': 'ru-RU,ru;q=0.9',
-        'c2ctype': 'c2c_merchant',
-        'clienttype': 'web',
-        'content-type': 'application/json',
-        'lang': 'ru',
-        'origin': 'https://p2p.binance.com',
-        'referer': 'https://p2p.binance.com/ru/trade/sell/USDT?fiat=EUR&payment=CREDOBANK',  # тут тоже нужно изменить Тинькофф на нужный вам банк, ну или оставить
-        'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-    }
-
+def get_course_euro_usdt_sell():
     json_data = {
         'proMerchantAds': False,
         'page': 1,
         'rows': 10,
-        'payTypes': [
-            'CREDOBANK',
-            # тут указываете название вашего банка. Узнать можно тут https://p2p.binance.com/ru/trade/all-payments/USDT, all-payments поменяется на ваш банк.
-        ],
+        'payTypes': ['CREDOBANK'],
         'countries': [],
         'publisherType': None,
         'asset': 'USDT',
-        'fiat': 'EUR',  # смена валюты
-        'tradeType': 'SELL',  # тип сделки
+        'fiat': 'EUR',
+        'tradeType': 'SELL',
     }
 
     response = requests.post(
@@ -181,8 +135,8 @@ def get_course_euro_usdt_sell():  # Функция парсинга ордеро
 
 course_buy_GEL_for_USDT = get_course_usdt_buy()
 course_sell_GEL_for_USDT = get_course_usdt_sell()
-course_sell_EUR_for_USDT = get_course_euro_usdt_sell()
+# course_sell_EUR_for_USDT = get_course_euro_usdt_sell()
 
-# print(course_buy_GEL_for_USDT)
-# print(course_sell_GEL_for_USDT)
+print(course_buy_GEL_for_USDT)
+print(course_sell_GEL_for_USDT)
 # print(course_sell_EUR_for_USDT)

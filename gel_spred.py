@@ -17,9 +17,9 @@ spred_classic = course_buy_GEL_for_USDT / course_sell_GEL_for_USDT * 100 - 100
 course_USD_from_corona = course_corona_usd  # курс USD ЗК
 # course_EURO_from_corona = 81.9176  # курс EURO ЗК
 course_GEL_from_corona = course_corona_gel  # курс GEL ЗК
-course_USD_from_unistream = 82.611  # курс USD юнистрим
-course_EURO_from_unistream = 90.26075  # курс EURP юнистрим #
-course_GEL_from_unistream = 33.0107  # курс GEL Unistream
+course_USD_from_unistream = 83.013  # курс USD юнистрим
+course_EURO_from_unistream = 91.1684  # курс EURP юнистрим #
+course_GEL_from_unistream = 33.11258  # курс GEL Unistream
 
 # course_USD_from_contact = 77.5097
 # course_GEL_from_contact = 30.59471
