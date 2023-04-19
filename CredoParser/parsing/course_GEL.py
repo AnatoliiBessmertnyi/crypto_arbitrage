@@ -137,6 +137,6 @@ course_buy_GEL_for_USDT = get_course_usdt_buy()
 course_sell_GEL_for_USDT = get_course_usdt_sell()
 # course_sell_EUR_for_USDT = get_course_euro_usdt_sell()
 
-print(course_buy_GEL_for_USDT)
-print(course_sell_GEL_for_USDT)
+# print(course_buy_GEL_for_USDT)
+# print(course_sell_GEL_for_USDT)
 # print(course_sell_EUR_for_USDT)

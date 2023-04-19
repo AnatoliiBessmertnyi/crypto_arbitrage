@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 def get_course_crypto():  # Получение курса BTC
     url_ticker_crypto = 'https://api.binance.com/api/v3/ticker/price'
     BTC = {'symbol': 'BTCUSDT'}
@@ -17,5 +18,6 @@ def get_course_crypto():  # Получение курса BTC
     data3 = float(json.loads(data_str3)['price'])
     d = [data1, data2, data3]
     return d
+
 
 courses = get_course_crypto()

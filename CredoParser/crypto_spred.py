@@ -1,6 +1,10 @@
-from course_GEL import course_buy_GEL_for_USDT, course_sell_GEL_for_USDT
-from course_crypto import courses
-from course_p2p_crypto import course_sell_GEL_for_BTC,\
+"""Программа подсчета прибыли по покупке и продаже BTC, ETH, BNB на P2P с
+с дальнейшей реализацией ее через Спот.
+"""
+from parsing.course_GEL import course_buy_GEL_for_USDT,\
+    course_sell_GEL_for_USDT
+from parsing.course_crypto import courses
+from parsing.course_p2p_crypto import course_sell_GEL_for_BTC,\
     course_sell_GEL_for_ETH, course_sell_GEL_for_BNB, course_buy_GEL_for_BTC,\
     course_buy_GEL_for_ETH
 

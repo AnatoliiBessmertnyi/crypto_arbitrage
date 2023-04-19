@@ -1,9 +1,18 @@
+"""
+Программа подсчета прибыльности работы в P2P через международку в Грузии
+по классической схеме купли продаже.
+Так же программа считает прибыльность схемы отправки денег через Золотую корону
+и может быть настроена под другие сервисы с реализацией в Грузинском банке.
+"""
 from datetime import datetime
-from course_RUB import course_tinkoff, course_raif
-from courses_Credo import course_USD_from_Credo, course_EURO_from_Credo_min, \
-     course_corona_gel, course_corona_usd  # course_EURO_from_Credo_max
-from course_GEL import course_buy_GEL_for_USDT, course_sell_GEL_for_USDT
-# , \course_sell_EUR_for_USDT
+from parsing.course_RUB import course_tinkoff, course_raif
+from parsing.courses_Credo import course_USD_from_Credo,\
+    course_EURO_from_Credo_min, course_corona_gel, course_corona_usd
+# course_EURO_from_Credo_max  # данный импорт неактуален из-за невозможности
+# торговать EURO на площадке Binance резидентам РФ
+from parsing.course_GEL import course_buy_GEL_for_USDT,\
+    course_sell_GEL_for_USDT
+# course_sell_EUR_for_USDT  # тоже самое что и выше
 
 sum_to_send_USD = 1000  # Оборот в $
 course_sell_USDT_for_RUB = max(course_tinkoff, course_raif)
@@ -17,9 +26,9 @@ spred_classic = course_buy_GEL_for_USDT / course_sell_GEL_for_USDT * 100 - 100
 course_USD_from_corona = course_corona_usd  # курс USD ЗК
 # course_EURO_from_corona = 81.9176  # курс EURO ЗК
 course_GEL_from_corona = course_corona_gel  # курс GEL ЗК
-course_USD_from_unistream = 83.013  # курс USD юнистрим
-course_EURO_from_unistream = 91.1684  # курс EURP юнистрим #
-course_GEL_from_unistream = 33.11258  # курс GEL Unistream
+course_USD_from_unistream = 82.7115  # курс USD юнистрим
+course_EURO_from_unistream = 91.06755  # курс EURP юнистрим #
+course_GEL_from_unistream = 33.16353  # курс GEL Unistream
 
 # course_USD_from_contact = 77.5097
 # course_GEL_from_contact = 30.59471
@@ -27,6 +36,7 @@ course_GEL_from_unistream = 33.11258  # курс GEL Unistream
 
 # Функции расчета прибыльности
 def unistream_usd():
+    """Функция подсчета прибыли через отправку USD по Unistream."""
     profit = (
         sum_to_send_in_RUB / course_USD_from_unistream
         * course_USD_from_Credo / course_sell_GEL_for_USDT
@@ -35,6 +45,7 @@ def unistream_usd():
 
 
 def corona_usd():
+    """Функция подсчета прибыли через отправку USD по ЗК."""
     corona_USD_profit_rub = (
         (
          sum_to_send_in_RUB / course_USD_from_corona * course_USD_from_Credo
@@ -45,6 +56,7 @@ def corona_usd():
 
 
 # def contact_usd():
+# """Функция подсчета прибыли через отправку USD по Contact."""
 #     profit = (
 #         sum_to_send_in_RUB / course_USD_from_contact
 #         * course_USD_from_Credo / course_sell_GEL_for_USDT
@@ -52,7 +64,8 @@ def corona_usd():
 #     return profit
 
 
-def corona_gel():  # Функция подсчета прибыли через отправку GEL по ЗК
+def corona_gel():
+    """Функция подсчета прибыли через отправку GEL по ЗК."""
     corona_profit_RUB = (
         (
          sum_to_send_in_RUB / course_GEL_from_corona
@@ -62,7 +75,8 @@ def corona_gel():  # Функция подсчета прибыли через �
     return corona_profit_RUB
 
 
-def unistream_gel():  # Функция подсчета прибыли через отправку GEL по ЗК
+def unistream_gel():
+    """Функция подсчета прибыли через отправку GEL по Unistream."""
     unistream_profit_RUB = (
         (
          sum_to_send_in_RUB / course_GEL_from_unistream
@@ -71,7 +85,8 @@ def unistream_gel():  # Функция подсчета прибыли чере�
         )
     return unistream_profit_RUB
 
-# def contact_gel():  # Функция подсчета прибыли через отправку GEL по ЗК
+# def contact_gel():
+# """Функция подсчета прибыли через отправку GEL по Contact."""
 #     profit = (
 #         (sum_to_send_in_RUB / course_GEL_from_contact
 #          / course_sell_GEL_for_USDT * course_sell_USDT_for_RUB * 0.999)
@@ -81,6 +96,7 @@ def unistream_gel():  # Функция подсчета прибыли чере�
 
 
 # def corona_euro():
+# """Функция подсчета прибыли через отправку EURO по ЗК."""
 #     corona_EURO_profit_rub = (
 #         (sum_to_send_in_RUB / course_EURO_from_corona
 #         * course_EURO_from_Credo_min / course_sell_GEL_for_USDT
@@ -89,6 +105,7 @@ def unistream_gel():  # Функция подсчета прибыли чере�
 #     return corona_EURO_profit_rub
 
 def unistream_euro():
+    """Функция подсчета прибыли через отправку EURO по Unistream."""
     unistream_EURO_profit_rub = (
         (
          sum_to_send_in_RUB / course_EURO_from_unistream
@@ -100,6 +117,7 @@ def unistream_euro():
 
 
 # def euro_classic():
+# """Функция подсчета прибыли торговли USD/EURO."""
 #     profit = (
 #         (sum_to_send_USD / course_sell_EUR_for_USDT* course_buy_GEL_for_USDT)
 #         - (sum_to_send_USD * course_EURO_from_Credo_max)
@@ -163,7 +181,6 @@ elif unistream_gel() > corona_gel():
 #         f'Спред: {contact_gel() / sum_to_send_in_RUB * 100:.2f}%\n'
 #         )
 
-# Проверка и справочная информация
 print(
     f'Местное время: {datetime.now().time().strftime("%H:%M:%S")}     | '
     f'Курс USDT/RUB: {course_sell_USDT_for_RUB:.2f}      | '
